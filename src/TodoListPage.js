@@ -26,19 +26,24 @@ export default  function TodoListPage(){
    
         
     const handle=()=> {
-      
-      
-      
-      if(  validator.isEmail(inputRef.current.value)===true   )
+    let findedTodos= todoContext.todos.find(item=>item.name===inputRef.current.value)
+if(findedTodos){alert("Bu mail daha önce alınmıştır")
+ return}
+      if(  validator.isEmail(inputRef.current.value )  )
 
-      {let newId= todoContext.todos[todoContext.todos.length -1].id+1;
+      {
+        
+        
+        
+        let newId=  todoContext.todos.length>0 ? todoContext?.todos[todoContext.todos.length -1].id+1 :3
       const newItem={name:inputRef.current.value,
                      isdone:isDoneRef.current.checked ,
                      id:newId}
-        
+     
         const newTodos=[...todoContext.todos]
         newTodos.push(newItem)
         todoContext.setTodos(newTodos)
+        
   
       toast.success('İşleminiz başarılı', {
         position: "top-left",
@@ -53,7 +58,7 @@ export default  function TodoListPage(){
     }
     else
     
-     { toast.warning('İşleminiz gerçekleşmedi', {
+     { toast.warning('İşleminiz gerçekleşmedi.Lütfen geçerli bir email adresi giriniz', {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -86,7 +91,7 @@ export default  function TodoListPage(){
 
 return ( <div className="w-100 "> 
     <div className="form-group my-3">
-      <label htmlFor="exampleInputEmail1">Todo Name</label>
+      <label htmlFor="exampleInputEmail1">Todo Email</label>
       <input value={inputValueRef} ref= {inputRef}  className="form-control mt-3" id="exampleInputEmail1" aria-describedby="emailHelp" />
       
     </div>
@@ -129,11 +134,11 @@ return ( <div className="w-100 ">
     </tr>
     </thead>
 
-  <tbody className=" ">
+  <tbody className=" mx-5">
     {todoContext.todos.map((todos,index)=>
 
     
-    <tr key={index}  >
+    <tr key={index}  className="" >
       <th   scope="row">{index+1} </th>
       <td> {todos.name} </td>
       <td> {todos.isdone ?  "true": "false"} </td>
